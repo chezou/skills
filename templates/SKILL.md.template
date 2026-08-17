@@ -1,0 +1,37 @@
+---
+name: skill-name
+description: What this skill does, followed by when to use it. Name the concrete triggers — the words, file types, and situations that should activate it — and the cases where it should NOT be used. This is the only text an agent sees before deciding to load the skill, so vague descriptions mean the skill never fires. Max 1024 characters.
+license: MIT
+---
+
+# Skill Name
+
+One paragraph on what problem this solves and why the naive approach falls short.
+
+## Inputs
+
+What the skill needs from the user, and what to do when a piece is missing.
+
+## Step 1: ...
+
+Concrete, ordered instructions. Prefer showing the shape of the output over
+describing it.
+
+## Step 2: ...
+
+## Edge cases
+
+The situations where the straightforward path gives the wrong answer.
+
+<!--
+Optional frontmatter fields (see https://agentskills.io/specification):
+  compatibility: Requires git and network access        # max 500 chars, rarely needed
+  allowed-tools: Bash(git:*) Read                       # space-separated string, experimental
+  metadata:                                             # flat string -> string map
+    version: "1.0"
+
+Optional directories inside the skill folder, loaded only on demand:
+  scripts/      executable helpers
+  references/   detailed docs split out to keep SKILL.md under ~500 lines
+  assets/       templates, schemas, images
+-->

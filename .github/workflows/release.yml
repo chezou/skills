@@ -1,0 +1,26 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Validate and package
+        run: |
+          python3 scripts/validate-skills.py
+          python3 scripts/package-skills.py
+
+      # gh skill and npx skills read release tags for version pinning and
+      # update checks; the zips serve the plain-file install route.
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --generate-notes

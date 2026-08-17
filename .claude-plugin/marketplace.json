@@ -1,0 +1,24 @@
+{
+  "name": "chezou-skills",
+  "description": "Agent Skills by chezou. Portable SKILL.md skills that work in Claude, Claude Code, Codex, opencode, and other Agent Skills compatible agents.",
+  "owner": {
+    "name": "chezou",
+    "url": "https://github.com/chezou"
+  },
+  "plugins": [
+    {
+      "name": "resume-tailor",
+      "source": "./",
+      "skills": ["./skills/resume-tailor"],
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Tailor an existing resume to a specific job description, sourcing concrete evidence from an episode bank. Covers cover letters, application questions, and design roles.",
+      "author": {
+        "name": "chezou",
+        "url": "https://github.com/chezou"
+      },
+      "category": "career",
+      "tags": ["resume", "cv", "job-search", "cover-letter", "career"]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Validate skills against the Agent Skills spec
+        run: python3 scripts/validate-skills.py
+
+      - name: Build the distributable archives
+        run: python3 scripts/package-skills.py
+
+      # The two third-party installers are the actual consumers of this layout,
+      # so smoke-test discovery rather than trusting the directory names.
+      # Informational: a CLI release upstream should not turn this repo red.
+      - name: Discovery smoke test (gh skill)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh skill publish --dry-run
+
+      - name: Discovery smoke test (npx skills)
+        continue-on-error: true
+        run: npx -y skills@latest add . --list
