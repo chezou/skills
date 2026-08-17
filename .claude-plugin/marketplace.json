@@ -19,6 +19,20 @@
       },
       "category": "career",
       "tags": ["resume", "cv", "job-search", "cover-letter", "career"]
+    },
+    {
+      "name": "company-research",
+      "source": "./",
+      "skills": ["./skills/company-research"],
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Research a company before applying or interviewing, and produce a sourced one-page brief covering the business, the team, the flags, and the questions to ask.",
+      "author": {
+        "name": "chezou",
+        "url": "https://github.com/chezou"
+      },
+      "category": "career",
+      "tags": ["interview", "job-search", "research", "career", "hiring"]
     }
   ]
 }

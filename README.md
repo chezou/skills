@@ -10,6 +10,7 @@ Gemini CLI, and the other agents that have adopted the format.
 | Skill | What it does |
 | --- | --- |
 | [`resume-tailor`](skills/resume-tailor/SKILL.md) | Tailors an existing resume to a specific job description, sourcing concrete evidence from an episode bank (brag doc, STAR notes, project inventory). Also covers cover letters, application questions, and the different bar that design roles are held to. |
+| [`company-research`](skills/company-research/SKILL.md) | Researches a company before you apply or interview, and produces a sourced one-page brief: what they sell, how they make money, who runs the team, what the hiring pattern gives away, the flags, and the questions worth asking. |
 
 ## Install
 
