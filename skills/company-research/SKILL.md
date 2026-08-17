@@ -19,7 +19,26 @@ Find these before anything else, because they set the shape of every later answe
 
 Use the company's own site first, then a business database (Crunchbase, LinkedIn company page, corporate registry for private companies) to check what the site is quiet about.
 
-## Step 2: Read the job market signal
+## Step 2: Place them in their market
+
+A company's competitive position determines what it needs from the person it hires. This is the difference between an interview answer that sounds informed and one that sounds like it came off the About page.
+
+- **Name the two or three direct competitors** and what separates this company from them. The differentiator is usually one thing: an incumbent's scale, a challenger's specific technical bet, a niche nobody large bothers to serve. If the candidate can articulate that bet, they can talk about the role in terms of the company's actual problem.
+- **Look at who their customers are.** A published customer list is a strategy statement — it shows which segment they've won and which they're reaching for. Whether the logos skew enterprise or startup, domestic or international, tells the candidate what the work will actually feel like.
+- **Check whether the company is defending or attacking.** An incumbent losing share behaves differently from a challenger with momentum, and each wants different traits in a hire.
+
+## Step 3: Read what they say about themselves
+
+Most companies publish values. What matters is whether they are specific enough to be falsifiable.
+
+- **Generic values** (integrity, innovation, teamwork) carry no information. Note their presence and move on.
+- **Specific operating principles** are worth reading closely, because they predict daily working conditions. A company that publishes something like "we hold almost no meetings" or "engineers write the product spec" is describing a real workflow, and one the candidate can ask concrete questions about.
+- **Check whether the stated principles match the postings and the reviews.** A company claiming deep autonomy while every JD lists rigid process requirements is telling on itself. Alignment is a good sign; contradiction is a flag worth raising in the brief.
+- **Look for what they say about hiring specifically.** Companies that describe a deliberately slow or high-bar process are warning the candidate that the pipeline will be long. That's useful for planning, not a reason to skip applying.
+
+**Growth health, where it's visible.** For companies that publish or leak these — funding announcements, press coverage, engineering blog posts — a few figures say more than the headline raise: revenue growth rate, customer count over time, burn relative to growth, retention or churn. A company that raised a large round and has barely spent it is in a very different position from one raising to cover a shortfall, even though both announce a round. Treat all of these as estimates unless the company is public, and say so.
+
+## Step 4: Read the job market signal
 
 The company's other postings say more than any single JD.
 
@@ -28,7 +47,7 @@ The company's other postings say more than any single JD.
 - **Read the seniority spread.** All senior and staff openings with no junior roles indicates a company that isn't set up to train. All junior roles indicates budget pressure or churn.
 - **Note the tool and stack names that repeat** across postings. These are the real requirements, as opposed to the aspirational list in any one JD.
 
-## Step 3: Look at the people
+## Step 5: Look at the people
 
 **Start at the top for smaller and private companies.** At a startup or an owner-run business, the founders and the board are the company's strategy. This step matters less at a large public company, where the CEO's background rarely reaches an individual team.
 
@@ -46,7 +65,7 @@ Then look at the level the candidate will actually work at:
 - **Identify the likely interviewer** where possible — the hiring manager or team lead. Knowing whether that person came up through the craft or from management changes how the candidate should pitch.
 - **Look for recent departures** in the relevant team. A vacancy backfilling a long-tenured person is a different job than a newly created seat.
 
-## Step 4: Find the unglamorous facts
+## Step 6: Find the unglamorous facts
 
 These are the ones candidates skip and regret:
 
@@ -55,7 +74,7 @@ These are the ones candidates skip and regret:
 - **Whether the company sponsors visas or requires local work authorization**, when relevant to the candidate.
 - **Actual compensation data** for the role and region, from a salary database rather than the company's own claim. If the posting has no range and the jurisdiction requires one, note that.
 
-## Step 5: Use the product
+## Step 7: Use the product
 
 Spend fifteen minutes as a user of whatever the company makes. Sign up, browse the store, read the app reviews, look at their social feeds and recent campaigns.
 
@@ -63,7 +82,7 @@ This is the single highest-return step for interview preparation, and most candi
 
 Note two or three concrete things: something done well, something that seems unfinished, and something the candidate would want to ask about. The third one becomes an interview question.
 
-## Step 6: Produce the brief
+## Step 8: Produce the brief
 
 Keep it to roughly one page. Structure:
 
@@ -72,6 +91,8 @@ Keep it to roughly one page. Structure:
 **What they do:** <one sentence>
 **Business model:** <how money comes in>
 **Size / stage:** <headcount, funding or public status, founded>
+**Position:** <who they compete with, what their bet is>
+**How they work:** <stated operating principles, where specific>
 **The team:** <where the role sits, who's around it>
 
 ### Why the candidate fits
@@ -103,4 +124,4 @@ Mark what is verified and what is inferred. A brief that reads confidently but m
 
 ## Timing
 
-Match the depth to the stage. Before applying, steps 1, 2, and 5 are usually enough to decide whether to invest in a tailored application. Run the full brief before a scheduled interview, and re-check the news search the day before, since a funding round or layoff announcement changes the conversation entirely.
+Match the depth to the stage. Before applying, steps 1, 2, 4, and 7 are usually enough to decide whether to invest in a tailored application. Run the full brief before a scheduled interview, and re-check the news search the day before, since a funding round or layoff announcement changes the conversation entirely.
