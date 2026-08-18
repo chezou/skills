@@ -33,6 +33,20 @@
       },
       "category": "career",
       "tags": ["interview", "job-search", "research", "career", "hiring"]
+    },
+    {
+      "name": "session-mailbox",
+      "source": "./",
+      "skills": ["./skills/session-mailbox"],
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Run an asynchronous review or decision loop between two AI sessions through one append-only Markdown file, with polling that survives restarts.",
+      "author": {
+        "name": "chezou",
+        "url": "https://github.com/chezou"
+      },
+      "category": "workflow",
+      "tags": ["review", "multi-agent", "async", "code-review", "polling"]
     }
   ]
 }
