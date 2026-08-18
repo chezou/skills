@@ -35,10 +35,10 @@ and **answering** when it responds to one. Decide from what you are about to wri
 ## Polling
 
 `scripts/mailbox.py status <file>` prints the absolute path, the header, per-role section counts, and a
-ready-to-paste cron prompt. Run it to start a loop **and to resume one** — resuming is just re-reading the
+ready-to-paste poll prompt. Run it to start a loop **and to resume one** — resuming is just re-reading the
 current counts, which is exactly what the wrong-file mistakes come from doing by memory.
 
-- **Put the absolute path in the cron prompt, literally.** When the job fires, none of the conversation is
+- **Put the absolute path in the poll prompt, literally.** When the job fires, none of the conversation is
   left; the prompt is the only context. A topic name alone sends you to a similarly named mailbox
   (`<topic>-strategy.md` vs `<topic>-strategy-mailbox.md`, `<topic>.md` vs `<topic>.archive.md`).
 - **Put all four in the prompt**: absolute path, topic name, the other role's heading prefix, and the count at
@@ -49,11 +49,18 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
   mixed transcript, and append-only means you cannot take it back.
 - **The prompt tells the woken session to reply with `mailbox.py append`**, so the rules hold on a turn that has
   none of this conversation behind it — which is the turn most likely to break them.
-- **Arm it** with `CronCreate`: `cron: "*/1 * * * *"`, `recurring: true`, `durable: false`. Keep the job ID.
-- **Keep watching after LGTM, at a lower rate.** `CronDelete` the 1-minute job and re-arm at `*/10 * * * *`.
-  Follow-up review of a later diff, or a corrected assumption, does arrive after an LGTM.
-- **`CronDelete` when the topic closes** — merged, landed, or the human says so. Recurring jobs otherwise keep
-  firing until they expire on their own after 7 days.
+- **Arm a repeating check** with whatever your agent schedules prompts with, at a 1-minute interval, and keep
+  its ID so you can change or stop it. In Claude Code that is `CronCreate` (`cron: "*/1 * * * *"`,
+  `recurring: true`, `durable: false`) and `CronDelete`; in the Codex app it is a heartbeat automation you
+  create, update when the interval changes, and stop when you are done.
+- **The exit condition in the file decides when watching ends**, not this list. If it says the loop ends at
+  LGTM, stop the schedule as soon as LGTM arrives — a poll that outlives its stated end is one the human
+  thought was already gone.
+- **Otherwise slow down rather than stop.** Where the mailbox stays open across rounds (a new PR lands in the
+  same file), update the schedule to 10 minutes instead of deleting it: follow-up review of a later diff, or a
+  corrected assumption, does arrive after an LGTM.
+- **Stop the schedule when the topic closes** — merged, landed, or the human says so. A recurring job otherwise
+  keeps firing until it expires on its own (7 days in Claude Code).
 
 ## Asking (requesting a review or a decision)
 
@@ -68,7 +75,8 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
 4. **Read the new sections in full**, then `mailbox.py append --role <you> --re '<their role> <n>'` with what
    you changed, the result of walking through their reproduction steps, real command output (test counts), and
    the current HEAD commit. They cannot confirm anything without looking at the same commit.
-5. **When the exit condition is met**, append a short acknowledgement and drop the poll to the lower rate.
+5. **When the exit condition is met**, append a short acknowledgement, then do what that condition said: stop
+   the schedule if the loop ends there, or slow it to 10 minutes if the mailbox carries on to the next round.
 
 ## Answering (returning a review or a decision)
 

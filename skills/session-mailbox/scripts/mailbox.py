@@ -12,7 +12,7 @@ past, optionally refuses a mailbox whose topic is not the one you expected, and
 writes at the end without touching a byte that is already there.
 
 `status` is what you run both to start polling and to resume it: it prints the
-absolute path, the header, the per-role section counts, and a cron prompt that
+absolute path, the header, the per-role section counts, and a poll prompt that
 carries all of them. Resuming from memory instead is how a session ends up
 reading a similarly named mailbox and answering into the wrong conversation.
 """
@@ -27,7 +27,7 @@ HEADING = re.compile(r"^## (?P<role>.+?) \d+:", re.MULTILINE)
 ROLES_LINE = re.compile(r"^\*\*Roles\*\*:(?P<rest>.+)$", re.MULTILINE)
 TEMPLATE = Path(__file__).resolve().parent.parent / "templates" / "mailbox.md"
 
-CRON_PROMPT = """Mailbox poll for "{topic}" — read ONLY {path}
+POLL_PROMPT = """Mailbox poll for "{topic}" — read ONLY {path}
 Count the sections matching '^## {role} ' in that file. The count was {count} when this job was armed.
 If it is still {count}, do nothing and end the turn.
 If it grew: first check that the file's header still names the topic "{topic}". If it does not, you are in the
@@ -99,14 +99,15 @@ def cmd_status(args) -> None:
     watched = [args.watch] if args.watch else roles(text) or list(counts)
     if not watched:
         print("\nno '## <role> <n>:' headings and no Roles line — this mailbox does not follow the skill's shape.")
-        print("Pass --watch <role> to still get a cron prompt (the count will start from 0).")
+        print("Pass --watch <role> to still get a poll prompt (the count will start from 0).")
     for role in watched:
         you = next((r for r in (roles(text) or list(counts)) if r != role), '<your role>')
-        print(f"\ncron prompt for watching '{role}' "
-              '(CronCreate: cron "*/1 * * * *", recurring true, durable false; '
-              '*/10 after LGTM, CronDelete when the topic closes):')
+        print(f"\npoll prompt for watching '{role}' — schedule it every minute "
+              '(Claude Code: CronCreate cron "*/1 * * * *", recurring true, durable false; '
+              "Codex: a heartbeat automation). After LGTM, follow this mailbox's exit condition: "
+              'stop the schedule if the loop ends there, otherwise slow it to 10 minutes:')
         print("-" * 78)
-        print(CRON_PROMPT.format(topic=subject, path=args.path, role=role, count=counts.get(role, 0),
+        print(POLL_PROMPT.format(topic=subject, path=args.path, role=role, count=counts.get(role, 0),
                                  script=Path(__file__).resolve(), you=you))
         print("-" * 78)
 
@@ -162,7 +163,7 @@ def cmd_close(args) -> None:
         f.write("\n---\n\nCLOSED\n")
     shutil.move(str(args.path), str(target))
     print(f"archived to {target}")
-    print("CronDelete the poll for this mailbox.")
+    print("Stop the schedule watching this mailbox.")
 
 
 def main() -> None:
@@ -176,7 +177,7 @@ def main() -> None:
     p_new.add_argument("--topic")
     p_new.set_defaults(func=cmd_new)
 
-    p_status = sub.add_parser("status", help="print state and a cron prompt (use to start and to resume)")
+    p_status = sub.add_parser("status", help="print state and a poll prompt (use to start and to resume)")
     p_status.add_argument("path", type=mailbox_path)
     p_status.add_argument("--watch", help="only print the prompt for this role")
     p_status.set_defaults(func=cmd_status)
