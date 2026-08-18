@@ -17,22 +17,20 @@ and **answering** when it responds to one. Decide from what you are about to wri
 
 ## File rules (both roles)
 
-- **One topic, one file, append-only.** Default location `~/.claude/mailbox/<topic>.md`. A reply written to
-  a new file is never read. Never rewrite or delete existing lines — that erases what the other side already acted on.
-- **Never keep a second copy.** Two copies mean hand-syncing, and one of them is always stale. If the other
+- **One topic, one file, in one place.** Default location `~/.claude/mailbox/<topic>.md`. A reply written to a
+  new file is never read, and a second copy means hand-syncing where one side is always stale. If the other
   session cannot read outside a repo, *move* the file to `<repo>/.claude/mailbox/<topic>.md` and gitignore it.
-  Pick one location. Live mailboxes carry PR contents and internal discussion, so they do not belong in a
-  published repo — only this skill and its template do.
+  Live mailboxes carry PR contents and internal discussion, so they do not belong in a published repo — only
+  this skill and its templates do.
 - **Fixed heading shape.** Every append starts with `## <role> <n>: <one-line summary>`, numbered per role
   (implementer 1 → reviewer 1 → implementer 2 …). Without a fixed shape you cannot count new arrivals.
 - **Count to detect, read to decide.** `grep -c '^## <their role>'` tells you *whether* something arrived;
   always read the body to decide what it says. Judging by mtime or the last line loses an LGTM.
-- **Append at the end of the file.** Anything inserted mid-file is missed by a reader who only looks at the tail.
-- **Re-count right before you write.** The other side may have appended while you were drafting. If the count
-  grew, read that section first and answer both in one append. Replying to a stale section leaves the order
-  out of step with the conversation, and every later reader has to reconstruct what answers what.
-- **Name the section you are answering** on the first line of your own (`Re: reviewer 1`, or `New` for a new topic).
-  Tail order alone does not carry that, so the section has to.
+- **Appending**: write at the end of the file — anything inserted mid-file is missed by a reader who only looks
+  at the tail — and never rewrite existing lines, which erases what the other side already acted on. Re-count
+  right before you write, and if the count grew, read that section first and answer both in one append; a reply
+  to a stale section leaves the order out of step, and every later reader has to reconstruct what answers what.
+  Put `Re: <their role> <n>` (or `New`) on your first line, since tail order alone does not carry that.
 
 ## Polling
 
@@ -98,6 +96,8 @@ State which topics you handled on the first line of your own section instead.
 - **Archive into a separate directory.** A sibling like `<topic>.archive.md` next to the live file is exactly
   what a resumed poll reads by mistake.
 
-## Template
+## Templates
 
-`templates/mailbox.md` — `scripts/mailbox.py new <path> --asking <role> --answering <role>` copies it into place.
+`scripts/mailbox.py new <path> --asking <role> --answering <role>` copies `templates/mailbox.md` into place —
+header and rules only, no sections, so the first real arrival is never counted against a placeholder.
+`templates/example.md` shows a worked round and is deliberately not copied.
