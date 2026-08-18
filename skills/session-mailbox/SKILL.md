@@ -26,11 +26,11 @@ and **answering** when it responds to one. Decide from what you are about to wri
   (implementer 1 → reviewer 1 → implementer 2 …). Without a fixed shape you cannot count new arrivals.
 - **Count to detect, read to decide.** `grep -c '^## <their role>'` tells you *whether* something arrived;
   always read the body to decide what it says. Judging by mtime or the last line loses an LGTM.
-- **Appending**: write at the end of the file — anything inserted mid-file is missed by a reader who only looks
-  at the tail — and never rewrite existing lines, which erases what the other side already acted on. Re-count
-  right before you write, and if the count grew, read that section first and answer both in one append; a reply
-  to a stale section leaves the order out of step, and every later reader has to reconstruct what answers what.
-  Put `Re: <their role> <n>` (or `New`) on your first line, since tail order alone does not carry that.
+- **Append with `scripts/mailbox.py append`**, which enforces the rest: it writes at the end without touching
+  earlier bytes (a section inserted mid-file is missed by a reader who only looks at the tail, and a rewritten
+  line erases what the other side already acted on), numbers your section, records `Re: <their role> <n>` since
+  tail order alone does not carry what answers what, and **refuses a reply to a section they have already moved
+  past** — telling you which sections to read and answer together instead.
 
 ## Polling
 
@@ -47,6 +47,8 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
 - **Check the header before writing.** If the topic name and role declaration at the top are not what you
   expect, **stop and ask the human instead of appending**. Cross-posting makes both sides reason from a
   mixed transcript, and append-only means you cannot take it back.
+- **The prompt tells the woken session to reply with `mailbox.py append`**, so the rules hold on a turn that has
+  none of this conversation behind it — which is the turn most likely to break them.
 - **Arm it** with `CronCreate`: `cron: "*/1 * * * *"`, `recurring: true`, `durable: false`. Keep the job ID.
 - **Keep watching after LGTM, at a lower rate.** `CronDelete` the 1-minute job and re-arm at `*/10 * * * *`.
   Follow-up review of a later diff, or a corrected assumption, does arrive after an LGTM.
@@ -63,9 +65,9 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
 2. **A human starts the other session by hand.** Do not automate that. "Read this file" is enough of a prompt;
    the request itself is in the file.
 3. **Wait** — arm the loop as described under Polling.
-4. **Read the new sections in full**, then append `## <your role> <n>: …` with what you changed, the result of
-   walking through their reproduction steps, real command output (test counts), and the current HEAD commit.
-   They cannot confirm anything without looking at the same commit.
+4. **Read the new sections in full**, then `mailbox.py append --role <you> --re '<their role> <n>'` with what
+   you changed, the result of walking through their reproduction steps, real command output (test counts), and
+   the current HEAD commit. They cannot confirm anything without looking at the same commit.
 5. **When the exit condition is met**, append a short acknowledgement and drop the poll to the lower rate.
 
 ## Answering (returning a review or a decision)
@@ -75,7 +77,7 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
 2. **Separate what you verified from what you did not.** For review, report as findings only what you
    reproduced, and label the rest as concerns. For decisions, separate what was already settled from what you
    are deciding now. The other side acts on this file alone, so a blend costs them real work.
-3. **Append `## <your role> <n>: <one-line summary>`** with the HEAD commit you checked, the findings (file and
+3. **Append with `mailbox.py append`** — the summary goes in `--summary`, and the body carries the HEAD commit you checked, the findings (file and
    line, reproduction, suggested fix), and your verification (types, test count, CI) — or, for a decision, the
    conclusion, the reasoning, and the constraints. **Write the exit words (`LGTM`, the conclusion) in the body**,
    or the other side keeps waiting.
