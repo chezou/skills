@@ -32,7 +32,8 @@ Count the sections matching '^## {role} ' in that file. The count was {count} wh
 If it is still {count}, do nothing and end the turn.
 If it grew: first check that the file's header still names the topic "{topic}". If it does not, you are in the
 wrong mailbox — stop and ask the human rather than writing anything.
-Then read the new sections in full and reply with:
+Then set this schedule back to a 1-minute interval — the round is active again — and read the new sections in
+full before replying with:
   python3 {script} append {path} --role {you} --re '{role} <n>' --summary '<one line>' --body-file -
 It derives your section number, refuses a stale reply, and writes at the end without touching earlier bytes."""
 
