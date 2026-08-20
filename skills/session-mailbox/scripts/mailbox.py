@@ -25,6 +25,7 @@ from pathlib import Path
 
 HEADING = re.compile(r"^## (?P<role>.+?) \d+:", re.MULTILINE)
 ROLES_LINE = re.compile(r"^\*\*Roles\*\*:(?P<rest>.+)$", re.MULTILINE)
+POLL_LINE = re.compile(r"^\*\*Poll\*\*: start (?P<start>.+?)(?:,|$)", re.MULTILINE)
 TEMPLATE = Path(__file__).resolve().parent.parent / "templates" / "mailbox.md"
 
 POLL_PROMPT = """Mailbox poll for "{topic}" — read ONLY {path}
@@ -32,7 +33,7 @@ Count the sections matching '^## {role} ' in that file. The count was {count} wh
 If it is still {count}, do nothing and end the turn.
 If it grew: first check that the file's header still names the topic "{topic}". If it does not, you are in the
 wrong mailbox — stop and ask the human rather than writing anything.
-Then set this schedule back to a 1-minute interval — the round is active again — and read the new sections in
+Then set this schedule back to {start} — the round is active again — and read the new sections in
 full before replying with:
   python3 {script} append {path} --role {you} --re '{role} <n>' --summary '<one line>' --body-file -
 It derives your section number, refuses a stale reply, and writes at the end without touching earlier bytes."""
@@ -62,6 +63,12 @@ def roles(text: str) -> list[str]:
     return [seg.split("=")[0].strip() for seg in m.group("rest").split(" / ")]
 
 
+def poll_start(text: str) -> str:
+    """The mailbox's own starting interval: a review loop wants 1 minute, a strategy thread 10."""
+    m = POLL_LINE.search(header(text))
+    return m.group("start").strip() if m else "1 minute"
+
+
 def topic(path: Path, text: str) -> str:
     return text.split("\n", 1)[0].lstrip("# ").strip() or path.stem
 
@@ -72,6 +79,7 @@ def cmd_new(args) -> None:
     text = TEMPLATE.read_text()
     text = text.replace("<asking role>", args.asking).replace("<answering role>", args.answering)
     text = text.replace("<topic>", args.topic or args.path.stem)
+    text = text.replace("<poll start>", args.poll_start)
     args.path.parent.mkdir(parents=True, exist_ok=True)
     args.path.write_text(text)
     print(f"created {args.path}")
@@ -97,19 +105,20 @@ def cmd_status(args) -> None:
         print(f"last: {last}")
 
     subject = topic(args.path, text)
+    start = poll_start(text)
     watched = [args.watch] if args.watch else roles(text) or list(counts)
     if not watched:
         print("\nno '## <role> <n>:' headings and no Roles line — this mailbox does not follow the skill's shape.")
         print("Pass --watch <role> to still get a poll prompt (the count will start from 0).")
     for role in watched:
         you = next((r for r in (roles(text) or list(counts)) if r != role), '<your role>')
-        print(f"\npoll prompt for watching '{role}' — schedule it every minute "
-              '(Claude Code: CronCreate cron "*/1 * * * *", recurring true, durable false; '
-              "Codex: a heartbeat automation). After LGTM, follow this mailbox's exit condition: "
-              'stop the schedule if the loop ends there, otherwise back off 1 -> 5 -> 15 -> 60 minutes:')
+        print(f"\npoll prompt for watching '{role}' — schedule it every {start} "
+              "(Claude Code: CronCreate with recurring true, durable false; Codex: a heartbeat automation). "
+              "After LGTM, follow this mailbox's exit condition: stop the schedule if the loop ends there, "
+              "otherwise back off toward 60 minutes:")
         print("-" * 78)
         print(POLL_PROMPT.format(topic=subject, path=args.path, role=role, count=counts.get(role, 0),
-                                 script=Path(__file__).resolve(), you=you))
+                                 script=Path(__file__).resolve(), you=you, start=start))
         print("-" * 78)
 
 
@@ -176,6 +185,8 @@ def main() -> None:
     p_new.add_argument("--asking", required=True, help="role that requests the review or decision")
     p_new.add_argument("--answering", required=True, help="role that returns it")
     p_new.add_argument("--topic")
+    p_new.add_argument("--poll-start", default="1 minute",
+                       help="starting poll interval for this mailbox (review loop 1 minute, strategy 10 minutes)")
     p_new.set_defaults(func=cmd_new)
 
     p_status = sub.add_parser("status", help="print state and a poll prompt (use to start and to resume)")
