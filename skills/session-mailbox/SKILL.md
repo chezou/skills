@@ -49,16 +49,21 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
   mixed transcript, and append-only means you cannot take it back.
 - **The prompt tells the woken session to reply with `mailbox.py append`**, so the rules hold on a turn that has
   none of this conversation behind it — which is the turn most likely to break them.
-- **Arm a repeating check** with whatever your agent schedules prompts with, at a 1-minute interval, and keep
-  its ID so you can change or stop it. In Claude Code that is `CronCreate` (`cron: "*/1 * * * *"`,
-  `recurring: true`, `durable: false`) and `CronDelete`; in the Codex app it is a heartbeat automation you
-  create, update when the interval changes, and stop when you are done.
+- **Arm a repeating check** with whatever your agent schedules prompts with, and keep its ID so you can change
+  or stop it. In Claude Code that is `CronCreate` (`recurring: true`, `durable: false`) and `CronDelete`; in the
+  Codex app it is a heartbeat automation you create, update when the interval changes, and stop when you are done.
+- **The starting interval belongs to the mailbox**, written in its `**Poll**:` line: a review loop wants 1
+  minute, a strategy thread 10 — replies there are not turn-by-turn, so a 1-minute poll only burns turns.
+  Keeping it in the header is what makes a resumed poll use the same number as the original.
 - **The exit condition in the file decides when watching ends**, not this list. If it says the loop ends at
   LGTM, stop the schedule as soon as LGTM arrives — a poll that outlives its stated end is one the human
   thought was already gone.
-- **Otherwise slow down rather than stop.** Where the mailbox stays open across rounds (a new PR lands in the
-  same file), update the schedule to 10 minutes instead of deleting it: follow-up review of a later diff, or a
-  corrected assumption, does arrive after an LGTM.
+- **Otherwise back off rather than stop.** Where the mailbox stays open across rounds (a new PR lands in the
+  same file), stretch the interval each time a check finds nothing, toward a 60-minute cap, instead of deleting
+  the schedule. Follow-up review of a later diff, or a corrected assumption, does arrive after an LGTM,
+  sometimes hours later; a fixed short interval spends turns on an idle file until someone deletes it out of
+  impatience, which is how the follow-up gets missed. The poll prompt resets the interval to the mailbox's
+  starting value when it finds a new section — otherwise nothing does, since only the woken session sees it.
 - **Stop the schedule when the topic closes** — merged, landed, or the human says so. A recurring job otherwise
   keeps firing until it expires on its own (7 days in Claude Code).
 
@@ -76,7 +81,8 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
    you changed, the result of walking through their reproduction steps, real command output (test counts), and
    the current HEAD commit. They cannot confirm anything without looking at the same commit.
 5. **When the exit condition is met**, append a short acknowledgement, then do what that condition said: stop
-   the schedule if the loop ends there, or slow it to 10 minutes if the mailbox carries on to the next round.
+   the schedule if the loop ends there, or start backing off toward 60 minutes if the mailbox carries on to the
+   next round.
 
 ## Answering (returning a review or a decision)
 

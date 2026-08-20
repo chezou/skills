@@ -4,6 +4,8 @@
 
 **Done when**: <answering role> appends a section containing `LGTM`. (Only a condition written here counts.)
 
+**Poll**: start <poll start>, back off toward 60 minutes after LGTM, reset on the next round.
+
 **Subject**: PR <number> <URL> / HEAD `<commit>` / base `<branch>` — or the question to decide.
 
 **Rules** (session-mailbox skill): this file is the only channel — never a new file, chat, or a messaging API.
