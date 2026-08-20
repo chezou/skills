@@ -56,9 +56,12 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
 - **The exit condition in the file decides when watching ends**, not this list. If it says the loop ends at
   LGTM, stop the schedule as soon as LGTM arrives — a poll that outlives its stated end is one the human
   thought was already gone.
-- **Otherwise slow down rather than stop.** Where the mailbox stays open across rounds (a new PR lands in the
-  same file), update the schedule to 10 minutes instead of deleting it: follow-up review of a later diff, or a
-  corrected assumption, does arrive after an LGTM.
+- **Otherwise back off rather than stop.** Where the mailbox stays open across rounds (a new PR lands in the
+  same file), stretch the interval each time a check finds nothing — 1 → 5 → 15 → 60 minutes — and leave it
+  there rather than deleting the schedule. Follow-up review of a later diff, or a corrected assumption, does
+  arrive after an LGTM, sometimes hours later; a fixed short interval spends turns on an idle file until
+  someone deletes it out of impatience, which is how the follow-up gets missed. Reset to 1 minute when the
+  next round starts.
 - **Stop the schedule when the topic closes** — merged, landed, or the human says so. A recurring job otherwise
   keeps firing until it expires on its own (7 days in Claude Code).
 
@@ -76,7 +79,8 @@ current counts, which is exactly what the wrong-file mistakes come from doing by
    you changed, the result of walking through their reproduction steps, real command output (test counts), and
    the current HEAD commit. They cannot confirm anything without looking at the same commit.
 5. **When the exit condition is met**, append a short acknowledgement, then do what that condition said: stop
-   the schedule if the loop ends there, or slow it to 10 minutes if the mailbox carries on to the next round.
+   the schedule if the loop ends there, or start backing off (1 → 5 → 15 → 60 minutes) if the mailbox carries
+   on to the next round.
 
 ## Answering (returning a review or a decision)
 

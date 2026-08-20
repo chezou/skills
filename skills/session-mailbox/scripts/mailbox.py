@@ -105,7 +105,7 @@ def cmd_status(args) -> None:
         print(f"\npoll prompt for watching '{role}' — schedule it every minute "
               '(Claude Code: CronCreate cron "*/1 * * * *", recurring true, durable false; '
               "Codex: a heartbeat automation). After LGTM, follow this mailbox's exit condition: "
-              'stop the schedule if the loop ends there, otherwise slow it to 10 minutes:')
+              'stop the schedule if the loop ends there, otherwise back off 1 -> 5 -> 15 -> 60 minutes:')
         print("-" * 78)
         print(POLL_PROMPT.format(topic=subject, path=args.path, role=role, count=counts.get(role, 0),
                                  script=Path(__file__).resolve(), you=you))
