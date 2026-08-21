@@ -10,14 +10,18 @@ A candidate researching an employer needs different things than an analyst resea
 
 ## Research budget
 
-Decide the depth before starting, and say which mode is running so the user can redirect.
+Left to decide its own depth, this skill will spend a session's entire usage limit before it writes a word. Set the mode before starting, say which one is running so the user can redirect, and treat the numbers as a ceiling rather than a target.
 
-- **Quick pass (default).** Steps 1, 2, 4, and 7, plus the recent-news search from Step 6 — roughly 8-12 page fetches total. This is enough to decide whether a posting is worth a tailored application, which is the common case.
-- **Full brief.** All eight steps, roughly 20-30 fetches. Run this only when the user has an interview scheduled or explicitly asks for the full version.
+- **Quick pass (default).** Steps 1, 2, 4, and 7, plus the recent-news search from Step 6 — at most 12 page fetches in total. This is enough to decide whether a posting is worth a tailored application, which is the common case.
+- **Full brief.** All eight steps, at most 30 fetches. Run this only when the user has an interview scheduled or explicitly asks for the full version.
 
-Within either mode: prefer one good source per question over three that agree. Search results pages often answer the question in the snippet — fetch the page only when the detail actually matters. Stop researching a question once it is answered, and stop the whole pass once the brief can be written; an unanswered item is a legitimate line in the output.
+What keeps either mode inside its ceiling:
 
-If a step is turning up nothing after two attempts, write "not public" and move on rather than trying more sources.
+- **Run it in one agent, in sequence.** Do not fan the steps out to parallel subagents. Each one re-fetches the ground the others already covered, and the spend is invisible until the limit is gone.
+- **Search first, fetch second.** A results page usually answers the question in the snippet. Fetch the page only when the detail actually matters, and for login-walled sources (LinkedIn, Glassdoor) take what the search snippets show rather than fetching a page that returns a sign-in wall.
+- **One or two fetches per step, not per bullet.** A step's bullets are what to look for in what you already fetched, not a list of separate searches.
+- **Stop when the question is answered**, not when the sources are exhausted — one good source beats three that agree. If a question is still open after two attempts, write "not public" and move on.
+- **At the ceiling, write the brief with what you have.** Do not extend the budget on your own: name what is still missing and let the user decide whether it is worth another pass.
 
 ## Step 1: Establish the basics
 
@@ -51,7 +55,7 @@ Most companies publish values. What matters is whether they are specific enough 
 
 ## Step 4: Read the job market signal
 
-The company's other postings say more than any single JD.
+The company's other postings say more than any single JD. One fetch of their careers listing answers most of this — read the list, do not open each posting.
 
 - **Look at everything they have open right now.** Twenty engineering roles and no design roles tells the candidate what this company thinks it is. A single designer position at a 200-person company means that person will be alone; ask whether that's what the candidate wants.
 - **Check whether this specific role has been reposted.** A posting that has cycled repeatedly over months usually means an unrealistic bar, a compensation mismatch, or a difficult hiring manager. This is worth knowing before investing in a tailored application.
@@ -69,7 +73,7 @@ The company's other postings say more than any single JD.
 
 Keep this to professional history — prior roles, companies, investments, public statements. Personal life is neither relevant nor appropriate here.
 
-Then look at the level the candidate will actually work at:
+Then look at the level the candidate will actually work at. The team page, or one search, is the whole budget here — do not page through profiles one by one.
 
 - **Find who currently holds similar roles**, via LinkedIn or the company's team page. Their backgrounds show what the company actually hires, which is often looser than the JD implies. If everyone in the role came from a different industry, the candidate's non-obvious background is less of a problem than they think.
 - **Check tenure.** A team where nobody has passed two years is a signal. So is a team where everyone has been there eight years and no one new has joined.
@@ -81,7 +85,7 @@ Then look at the level the candidate will actually work at:
 These are the ones candidates skip and regret:
 
 - **Recent news**: layoffs, funding rounds, acquisitions, leadership changes, product sunsets. Search the last twelve months specifically, and weight the last three months heavily.
-- **Employee reviews**, read skeptically. Glassdoor and Indeed skew toward the angry and the coached. What's useful is repetition: the same specific complaint from many people over time is a real pattern; one detailed rant is not. Read the most recent reviews first, since old complaints may describe a management team that has since left.
+- **Employee reviews**, read skeptically. Glassdoor and Indeed skew toward the angry and the coached. What's useful is repetition: the same specific complaint from many people over time is a real pattern; one detailed rant is not. Read the most recent reviews first, since old complaints may describe a management team that has since left. One page of recent reviews is enough to see whether a complaint repeats.
 - **Whether the company sponsors visas or requires local work authorization**, when relevant to the candidate.
 - **Actual compensation data** for the role and region, from a salary database rather than the company's own claim. If the posting has no range and the jurisdiction requires one, note that.
 
