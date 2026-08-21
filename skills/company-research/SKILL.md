@@ -8,6 +8,17 @@ license: MIT
 
 A candidate researching an employer needs different things than an analyst researching a business. The questions are: would I want to work here, will they want me, and what do I say in the room. This skill produces a brief that answers those, grounded in sources rather than impressions.
 
+## Research budget
+
+Decide the depth before starting, and say which mode is running so the user can redirect.
+
+- **Quick pass (default).** Steps 1, 2, 4, and 7, plus the recent-news search from Step 6 — roughly 8-12 page fetches total. This is enough to decide whether a posting is worth a tailored application, which is the common case.
+- **Full brief.** All eight steps, roughly 20-30 fetches. Run this only when the user has an interview scheduled or explicitly asks for the full version.
+
+Within either mode: prefer one good source per question over three that agree. Search results pages often answer the question in the snippet — fetch the page only when the detail actually matters. Stop researching a question once it is answered, and stop the whole pass once the brief can be written; an unanswered item is a legitimate line in the output.
+
+If a step is turning up nothing after two attempts, write "not public" and move on rather than trying more sources.
+
 ## Step 1: Establish the basics
 
 Find these before anything else, because they set the shape of every later answer:
@@ -76,7 +87,7 @@ These are the ones candidates skip and regret:
 
 ## Step 7: Use the product
 
-Spend fifteen minutes as a user of whatever the company makes. Sign up, browse the store, read the app reviews, look at their social feeds and recent campaigns.
+Spend a bounded amount of time looking at whatever the company makes: the product pages, the app store listing and its recent reviews, their social feeds and recent campaigns. Two or three pages is usually enough; this is not a full product audit.
 
 This is the single highest-return step for interview preparation, and most candidates skip it. It produces specific observations, which are what interviewers remember. For design roles especially, an actual read on the company's visual language, brand consistency, and where the work is uneven is far more persuasive than any general enthusiasm.
 
@@ -124,4 +135,4 @@ Mark what is verified and what is inferred. A brief that reads confidently but m
 
 ## Timing
 
-Match the depth to the stage. Before applying, steps 1, 2, 4, and 7 are usually enough to decide whether to invest in a tailored application. Run the full brief before a scheduled interview, and re-check the news search the day before, since a funding round or layoff announcement changes the conversation entirely.
+Match the depth to the stage, per the research budget above. Before applying, the quick pass is enough to decide whether to invest in a tailored application. Run the full brief before a scheduled interview, and re-check the news search the day before, since a funding round or layoff announcement changes the conversation entirely.
