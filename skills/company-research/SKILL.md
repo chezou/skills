@@ -19,9 +19,12 @@ What keeps either mode inside its ceiling:
 
 - **Run it in one agent, in sequence.** Do not fan the steps out to parallel subagents. Each one re-fetches the ground the others already covered, and the spend is invisible until the limit is gone.
 - **Search first, fetch second.** A results page usually answers the question in the snippet. Fetch the page only when the detail actually matters, and for login-walled sources (LinkedIn, Glassdoor) take what the search snippets show rather than fetching a page that returns a sign-in wall.
+- **Count the fetches out loud.** Prefix each one with its number and the question it answers: `[fetch 4/12] example.com/about — headcount and founding year`. A ceiling nobody counts against is not a ceiling, and the running number is what lets the user stop a run that is going wide before the limit does. A fetch that came back useless still counts.
 - **One or two fetches per step, not per bullet.** A step's bullets are what to look for in what you already fetched, not a list of separate searches.
 - **Stop when the question is answered**, not when the sources are exhausted — one good source beats three that agree. If a question is still open after two attempts, write "not public" and move on.
 - **At the ceiling, write the brief with what you have.** Do not extend the budget on your own: name what is still missing and let the user decide whether it is worth another pass.
+
+Going wide looks the same every time: opening every result a search returned, opening each posting or article instead of reading the list, and fetching a page again to confirm something already in hand. A fetch with no question attached to it is one of those three.
 
 ## Step 1: Establish the basics
 
